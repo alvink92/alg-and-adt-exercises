@@ -7,8 +7,24 @@
 
 # Import any files you need to
 
-
+require_relative 'topological_sort'
+require_relative 'graph'
 
 def install_order(arr)
+  h = {}
 
+  arr.each do |tup|
+    pack_id = tup[0]
+    dep_id = tup[1]
+
+    h[pack_id] ||= Vertex.new(pack_id)
+    h[dep_id] ||= Vertex.new(dep_id)
+
+    Edge.new(h[dep_id], h[pack_id])
+  end
+
+  ret = topological_sort(h.values).map{|v| v.value}
+  p arr
+  p ret
+  ret
 end
