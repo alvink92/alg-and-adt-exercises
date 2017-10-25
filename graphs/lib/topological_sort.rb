@@ -19,6 +19,6 @@ def topological_sort(vertices)
       top_q << to_vertex if to_vertex.in_edges.empty?
     end
   end
-
+  
   vertices.map{|v| v.in_edges.length + v.out_edges.length}.inject(0, :+) > 0 ? [] : sorted
 end
