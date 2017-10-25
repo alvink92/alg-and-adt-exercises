@@ -8,8 +8,15 @@ class DynamicProgramming
       1 => [[1]],
       2 => [[1,1], [2]],
       3 => [[1,1,1], [1,2], [2,1], [3]]
-    # 4 => [[1, 1, 1, 1], [1, 1, 2], [1, 2, 1], [2, 1, 1], [2, 2], [1, 3], [3, 1]]
+    # 4 => [[1, 1, 1, 1], [1, 2, 1], [3, 1], [2, 1, 1], [2, 2], [1, 1, 2], [1, 3] ]
     }
+
+    # @super_frog_cache = {
+    #   1 => [[1]],
+    #   2 => [[1,1], [2]],
+    #   3 => [[1,1,1], [2,1], [1,2], [3]]
+    #   4 => [[1, 1, 1, 1], [1, 2, 1], [3, 1], [2, 1, 1], [2, 2], [1, 1, 2], [1, 3] ]
+    # }
   end
 
   def blair_nums(n)
@@ -27,15 +34,40 @@ class DynamicProgramming
   end
 
   def frog_hops_top_down(n)
-    
+    frog_hops_top_down_helper(n)
   end
 
   def frog_hops_top_down_helper(n)
-
+    return @frog_cache[n] unless @frog_cache[n].nil?
+    @frog_cache[n] = [1,2,3].map{|leap| frog_hops_top_down(n - leap).map{|hops| hops + [leap] }}.flatten(1)
   end
 
-  def super_frog_hops(n, k)
+  def super_frog_cache_builder(n, k)
+    super_frog_cache = {
+      1 => [[1]]
+    }
+    (2..n).to_a.each{|step| super_frog_cache[step] = (1..[k, step - 1].min).map{|leap| super_frog_cache[step - leap].map{|hops| hops + [leap] }}.flatten(1) + (step <= k ? [[step]] : [])}
+    super_frog_cache
+  end
 
+  # def super_frog_cache_builder(n, k)
+  #   super_frog_cache = {
+  #     1 => [[1]]
+  #   }
+  #
+  #   (2..n).each do |step|
+  #     super_frog_cache[step] = []
+  #     (1..[k,step - 1].min).each do |leap|
+  #       super_frog_cache[step] += super_frog_cache[step - leap].map{|hops| hops + [leap]}
+  #     end
+  #     super_frog_cache[step] += [[step]] if step <= k
+  #   end
+  #
+  #   super_frog_cache
+  # end
+
+  def super_frog_hops(n, k)
+    super_frog_cache_builder(n, k)[n]
   end
 
   def knapsack(weights, values, capacity)
