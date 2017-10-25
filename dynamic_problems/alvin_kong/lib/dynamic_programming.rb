@@ -8,15 +8,7 @@ class DynamicProgramming
       1 => [[1]],
       2 => [[1,1], [2]],
       3 => [[1,1,1], [1,2], [2,1], [3]]
-    # 4 => [[1, 1, 1, 1], [1, 2, 1], [3, 1], [2, 1, 1], [2, 2], [1, 1, 2], [1, 3] ]
     }
-
-    # @super_frog_cache = {
-    #   1 => [[1]],
-    #   2 => [[1,1], [2]],
-    #   3 => [[1,1,1], [2,1], [1,2], [3]]
-    #   4 => [[1, 1, 1, 1], [1, 2, 1], [3, 1], [2, 1, 1], [2, 2], [1, 1, 2], [1, 3] ]
-    # }
   end
 
   def blair_nums(n)
@@ -50,22 +42,6 @@ class DynamicProgramming
     super_frog_cache
   end
 
-  # def super_frog_cache_builder(n, k)
-  #   super_frog_cache = {
-  #     1 => [[1]]
-  #   }
-  #
-  #   (2..n).each do |step|
-  #     super_frog_cache[step] = []
-  #     (1..[k,step - 1].min).each do |leap|
-  #       super_frog_cache[step] += super_frog_cache[step - leap].map{|hops| hops + [leap]}
-  #     end
-  #     super_frog_cache[step] += [[step]] if step <= k
-  #   end
-  #
-  #   super_frog_cache
-  # end
-
   def super_frog_hops(n, k)
     super_frog_cache_builder(n, k)[n]
   end
@@ -81,4 +57,28 @@ class DynamicProgramming
 
   def maze_solver(maze, start_pos, end_pos)
   end
+
 end
+
+# @super_frog_cache = {
+#   1 => [[1]],
+#   2 => [[1,1], [2]],
+#   3 => [[1,1,1], [2,1], [1,2], [3]]
+#   4 => [[1, 1, 1, 1], [1, 2, 1], [3, 1], [2, 1, 1], [2, 2], [1, 1, 2], [1, 3] ]
+# }
+
+# def super_frog_cache_builder(n, k)
+#   super_frog_cache = {
+#     1 => [[1]]
+#   }
+#
+#   (2..n).each do |step|
+#     super_frog_cache[step] = []
+#     (1..[k,step - 1].min).each do |leap|
+#       super_frog_cache[step] += super_frog_cache[step - leap].map{|hops| hops + [leap]}
+#     end
+#     super_frog_cache[step] += [[step]] if step <= k
+#   end
+#
+#   super_frog_cache
+# end
